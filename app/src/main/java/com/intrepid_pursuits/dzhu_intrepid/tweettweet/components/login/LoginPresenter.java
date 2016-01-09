@@ -1,6 +1,7 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.login;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.LoginInteractor;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.OnLoginFinishedListener;
 
 // Adapted from https://github.com/jpotts18/android-mvp/blob/master/app/src/main/java/io/jpotts18/android_mvp/domain/login/LoginPresenter.java
 public class LoginPresenter implements OnLoginFinishedListener {
@@ -13,6 +14,16 @@ public class LoginPresenter implements OnLoginFinishedListener {
     }
 
     public void attemptLogin(String username, String password) {
-//        loginInteractor.validateCredentials(username, password, this);
+        loginInteractor.validateCredentials(username, password, this);
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onError() {
+
     }
 }
