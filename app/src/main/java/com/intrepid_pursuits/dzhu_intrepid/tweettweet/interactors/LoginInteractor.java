@@ -9,15 +9,15 @@ import org.scribe.oauth.OAuthService;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class LoginInteractor {
     public void validateCredentials() {
         Timber.d("Button clicked.");
-
-//        new IOTransformer<String>()
-//                .call(this.retrieveAuthUrl())
-//                .subscribe(authUrl -> Timber.d(authUrl));
+        Subscription subscription = getObservable().subscribe(getSubscriber());
     }
 
     public Observable<String> retrieveAuthUrl() {
@@ -32,6 +32,30 @@ public class LoginInteractor {
         Timber.d(authUrl);
 
         return Observable.just(authUrl);
+    }
+
+    private Observable<String> getObservable() {
+        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                OAuthService service = new ServiceBuilder()
+                        .provider(TwitterApi.class)
+                        .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
+                        .apiSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
+                        .build();
+
+                Token requestToken = service.getRequestToken();
+                String authUrl = service.getAuthorizationUrl(requestToken);
+                Timber.d(authUrl);
+
+                subscriber.onNext(authUrl);
+                subscriber.onCompleted();
+            }
+        });
+
+        return observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Subscriber<String> getSubscriber() {
