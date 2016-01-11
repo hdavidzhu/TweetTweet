@@ -9,6 +9,9 @@ import retrofit2.http.GET;
 
 public interface TwitterAPI {
 
+//    @GET("oauth/authenticate")
+//    Call<> login();
+
     // Reference at https://dev.twitter.com/rest/reference/get/statuses/home_timeline
     @GET("/1.1/statuses/home_timeline.json")
     Call<List<Tweet>> getTimelineTweets();
