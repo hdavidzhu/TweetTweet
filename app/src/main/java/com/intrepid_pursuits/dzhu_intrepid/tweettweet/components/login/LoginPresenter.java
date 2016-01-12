@@ -16,27 +16,50 @@ public class LoginPresenter {
     }
 
     public void attemptLogin() {
-        loginInteractor.validateCredentials(this.getAuthUrlSubscriber());
+        loginInteractor.retrieveAuthUrl(this.onAuthUrlRetrieved());
+    }
+
+    public void submitPin(String pin) {
+        loginInteractor.submitPin(pin, this.onAccessTokenRetrieved());
     }
 
     // TODO: A new instance of this subscriber is created every single time. Should this be an observer
     // TODO: and be reused?
-    private Subscriber<String> getAuthUrlSubscriber() {
+    // Reference: http://stackoverflow.com/a/30222908/2204868
+    private Subscriber<String> onAuthUrlRetrieved() {
         return new Subscriber<String>() {
             @Override
             public void onCompleted() {
-                Timber.d("The job is done.");
             }
 
             @Override
             public void onError(Throwable e) {
-                Timber.d(e.toString());
+                Timber.e(e.toString());
             }
 
             @Override
             public void onNext(String authUrl) {
                 Timber.d(authUrl);
                 LoginPresenter.this.loginView.openTwitterAuthWindow(authUrl);
+            }
+        };
+    }
+
+    private Subscriber<String[]> onAccessTokenRetrieved() {
+        return new Subscriber<String[]>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Timber.e(e.toString());
+            }
+
+            @Override
+            public void onNext(String[] token) {
+                Timber.d(token.toString());
             }
         };
     }

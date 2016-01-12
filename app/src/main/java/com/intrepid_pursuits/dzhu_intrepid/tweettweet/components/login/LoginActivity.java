@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     LoginPresenter presenter;
+
+    @Bind(R.id.pin_input)
+    EditText pinInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.login_submit)
     public void loginButtonClicked() {
         this.presenter.attemptLogin();
+    }
+
+    @OnClick(R.id.pin_submit)
+    public void pinButtonClicked() {
+        this.presenter.submitPin(pinInput.getText().toString());
     }
 
     // From: http://stackoverflow.com/a/3004542/2204868
