@@ -15,65 +15,39 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class LoginInteractor {
-    public void validateCredentials() {
+    public void validateCredentials(Subscriber<String> authUrlSubscriber) {
         Timber.d("Button clicked.");
-        Subscription subscription = getObservable().subscribe(getSubscriber());
-    }
-
-    public Observable<String> retrieveAuthUrl() {
-        OAuthService service = new ServiceBuilder()
-                .provider(TwitterApi.class)
-                .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
-                .apiSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
-                .build();
-
-        Token requestToken = service.getRequestToken();
-        String authUrl = service.getAuthorizationUrl(requestToken);
-        Timber.d(authUrl);
-
-        return Observable.just(authUrl);
+        Subscription subscription = getObservable().subscribe(authUrlSubscriber);
     }
 
     private Observable<String> getObservable() {
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
-                OAuthService service = new ServiceBuilder()
-                        .provider(TwitterApi.class)
-                        .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
-                        .apiSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
-                        .build();
+                try {
+                    OAuthService service = new ServiceBuilder()
+                            .provider(TwitterApi.class)
+                            .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
+                            .apiSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
+                            .build();
 
-                Token requestToken = service.getRequestToken();
-                String authUrl = service.getAuthorizationUrl(requestToken);
-                Timber.d(authUrl);
+                    Token requestToken = service.getRequestToken();
+                    String authUrl = service.getAuthorizationUrl(requestToken);
+                    Timber.d(authUrl);
 
-                subscriber.onNext(authUrl);
+                    subscriber.onNext(authUrl);
+
+                } catch (Throwable e) {
+                    subscriber.onError(e);
+                }
+
                 subscriber.onCompleted();
             }
         });
 
+        // TODO: Potentially abstract this out.
         return observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private Subscriber<String> getSubscriber() {
-        return new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-                Timber.d("The job is done.");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Timber.d(e.toString());
-            }
-
-            @Override
-            public void onNext(String s) {
-                Timber.d(s);
-            }
-        };
     }
 }

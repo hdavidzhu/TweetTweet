@@ -11,13 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".TweetTweetApplication">
-        <activity android:name=".components.login.LoginActivity">
+        <activity
+            android:name=".components.login.LoginActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+                <!--<data android:scheme="oauth-testing" />-->
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
