@@ -1,8 +1,11 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors;
 
+import android.content.SharedPreferences;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.RxScheduler;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
@@ -12,9 +15,6 @@ import org.scribe.oauth.OAuthService;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class LoginInteractor {
@@ -39,11 +39,15 @@ public class LoginInteractor {
         Timber.d(pin);
         getPinObservable(pin)
                 .map(accessToken -> new String[]{accessToken.getToken(), accessToken.getSecret()})
-                .subscribe(onAccessTokenReceivedSubscriber);
+                .map(tokenArray -> {
+//                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences();
+                    return tokenArray;
+                })
+                .subscribe(onAccessTokenReceivedSubscriber)
     }
 
     private Observable<String> getAuthUrlObservable() {
-        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
+        return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
@@ -62,12 +66,7 @@ public class LoginInteractor {
 
                 subscriber.onCompleted();
             }
-        });
-
-        // TODO: Potentially abstract this out.
-        return observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        }).compose(RxScheduler.applySchedulers());
     }
 
     public Observable<Token> getPinObservable(String pin) {
@@ -87,6 +86,6 @@ public class LoginInteractor {
                 subscriber.onCompleted();
 
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        }).compose(RxScheduler.applySchedulers());
     }
 }

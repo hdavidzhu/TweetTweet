@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 
 //Add these lines
 def TWITTER_CONSUMER_KEY = '"' + TweetTweetConsumerKey + '"' ?: '"Define Twitter Consumer key"';
@@ -38,6 +39,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
+
+    compile 'com.google.dagger:dagger:2.0'
+    provided 'com.google.dagger:dagger-compiler:2.0'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
