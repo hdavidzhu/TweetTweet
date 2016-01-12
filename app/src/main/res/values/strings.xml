@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TweetTweet</string>
     <string name="button_login">Login To Twitter</string>
+    <string name="button_pin_submit">Submit Pin</string>
 </resources>

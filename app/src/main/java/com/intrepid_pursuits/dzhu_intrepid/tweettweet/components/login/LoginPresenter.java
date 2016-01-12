@@ -9,13 +9,20 @@ import timber.log.Timber;
 public class LoginPresenter {
     private LoginView loginView;
     private LoginInteractor loginInteractor;
-    private Subscriber<String> authUrlSubscriber;
 
     public LoginPresenter(LoginView loginView) {
         this.loginView = loginView;
         this.loginInteractor = new LoginInteractor();
+    }
 
-        this.authUrlSubscriber = new Subscriber<String>() {
+    public void attemptLogin() {
+        loginInteractor.validateCredentials(this.getAuthUrlSubscriber());
+    }
+
+    // TODO: A new instance of this subscriber is created every single time. Should this be an observer
+    // TODO: and be reused?
+    private Subscriber<String> getAuthUrlSubscriber() {
+        return new Subscriber<String>() {
             @Override
             public void onCompleted() {
                 Timber.d("The job is done.");
@@ -32,9 +39,5 @@ public class LoginPresenter {
                 LoginPresenter.this.loginView.openTwitterAuthWindow(authUrl);
             }
         };
-    }
-
-    public void attemptLogin() {
-        loginInteractor.validateCredentials(this.authUrlSubscriber);
     }
 }

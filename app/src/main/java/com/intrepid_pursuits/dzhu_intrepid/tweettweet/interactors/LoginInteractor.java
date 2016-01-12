@@ -1,5 +1,7 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors;
 
+import android.os.Looper;
+
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 
 import org.scribe.builder.ServiceBuilder;
@@ -9,7 +11,6 @@ import org.scribe.oauth.OAuthService;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -17,10 +18,10 @@ import timber.log.Timber;
 public class LoginInteractor {
     public void validateCredentials(Subscriber<String> authUrlSubscriber) {
         Timber.d("Button clicked.");
-        Subscription subscription = getObservable().subscribe(authUrlSubscriber);
+        getAuthUrlObservable().subscribe(authUrlSubscriber);
     }
 
-    private Observable<String> getObservable() {
+    private Observable<String> getAuthUrlObservable() {
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -30,6 +31,9 @@ public class LoginInteractor {
                             .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
                             .apiSecret(BuildConfig.TWITTER_CONSUMER_SECRET)
                             .build();
+
+                    Boolean isOnUIThread = Looper.myLooper() == Looper.getMainLooper();
+                    Timber.d("Am I on the UI thread? " + isOnUIThread.toString());
 
                     Token requestToken = service.getRequestToken();
                     String authUrl = service.getAuthorizationUrl(requestToken);
