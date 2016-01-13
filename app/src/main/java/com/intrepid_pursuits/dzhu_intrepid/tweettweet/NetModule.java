@@ -25,12 +25,12 @@ public class NetModule {
 
     @Provides
     @Singleton
-    SharedPreferences providesSharedPreferences(Application application) {
+    SharedPreferences provideSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
     @Provides
-    OkHttpOAuthConsumer providesOkHttpOAuthConsumer(String authToken, String authTokenSecret) {
+    OkHttpOAuthConsumer provideOkHttpOAuthConsumer(String authToken, String authTokenSecret) {
         OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(
                 BuildConfig.TWITTER_CONSUMER_KEY,
                 BuildConfig.TWITTER_CONSUMER_SECRET);
@@ -50,7 +50,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    Retrofit providesRetrofit(OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
