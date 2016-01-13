@@ -30,4 +30,10 @@
         android:text="@string/button_pin_submit"
         android:id="@+id/pin_submit" />
 
+    <Button
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:text="Temporary Login"
+        android:id="@+id/temporary_login" />
+
 </LinearLayout>

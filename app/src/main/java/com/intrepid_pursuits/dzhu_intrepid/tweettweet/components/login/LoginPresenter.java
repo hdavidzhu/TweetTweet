@@ -29,8 +29,7 @@ public class LoginPresenter {
     private Subscriber<String> onAuthUrlRetrieved() {
         return new Subscriber<String>() {
             @Override
-            public void onCompleted() {
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable e) {
@@ -40,7 +39,7 @@ public class LoginPresenter {
             @Override
             public void onNext(String authUrl) {
                 Timber.d(authUrl);
-                LoginPresenter.this.loginView.openTwitterAuthWindow(authUrl);
+                loginView.openTwitterAuthWindow(authUrl);
             }
         };
     }
@@ -48,9 +47,7 @@ public class LoginPresenter {
     private Subscriber<String[]> onAccessTokenRetrieved() {
         return new Subscriber<String[]>() {
             @Override
-            public void onCompleted() {
-
-            }
+            public void onCompleted() {}
 
             @Override
             public void onError(Throwable e) {
@@ -59,7 +56,7 @@ public class LoginPresenter {
 
             @Override
             public void onNext(String[] token) {
-                Timber.d(token.toString());
+                loginView.switchToTweetFeed(token[0], token[1]);
             }
         };
     }

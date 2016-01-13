@@ -9,9 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.tweetFeed.TweetFeedActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/tile_board_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/tile_board_view"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent" />-->
 
 </FrameLayout>

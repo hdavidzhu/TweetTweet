@@ -5,6 +5,7 @@ import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 import okhttp3.OkHttpClient;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.RxJavaCallAdapterFactory;
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
@@ -15,7 +16,8 @@ public class ServiceGenerator {
     public static OkHttpClient httpClient;
     public static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create());
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass, null, null);
@@ -34,7 +36,9 @@ public class ServiceGenerator {
                 .addInterceptor(new SigningInterceptor(consumer))
                 .build();
 
-        Retrofit retrofit = builder.client(httpClient).build();
+        Retrofit retrofit = builder
+                .client(httpClient)
+                .build();
         return retrofit.create(serviceClass);
     }
 }

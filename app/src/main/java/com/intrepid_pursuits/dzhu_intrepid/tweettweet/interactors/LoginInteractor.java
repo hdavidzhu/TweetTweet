@@ -1,8 +1,6 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors;
 
-import android.content.SharedPreferences;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.RxScheduler;
@@ -43,7 +41,7 @@ public class LoginInteractor {
 //                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences();
                     return tokenArray;
                 })
-                .subscribe(onAccessTokenReceivedSubscriber)
+                .subscribe(onAccessTokenReceivedSubscriber);
     }
 
     private Observable<String> getAuthUrlObservable() {

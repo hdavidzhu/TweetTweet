@@ -16,13 +16,11 @@
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
-                <!-- <data android:scheme="oauth-testing" /> -->
             </intent-filter>
         </activity>
-        <activity android:name=".components.tweetFeed.TweetFeedActivity"></activity>
+        <activity android:name=".components.tweetFeed.TweetFeedActivity">
+        </activity>
     </application>
 
 </manifest>
