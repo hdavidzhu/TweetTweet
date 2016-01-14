@@ -1,8 +1,7 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.dagger.modules;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterService;
 
 import javax.inject.Singleton;
 
@@ -15,21 +14,15 @@ import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
 @Module
-public class NetModule {
+public class NetworkModule {
 
-    String baseUrl;
+    private String baseUrl;
 
-    public NetModule(String baseUrl) {
+    public NetworkModule(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    @Provides
-    @Singleton
-    SharedPreferences provideSharedPreferences(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
-    }
-
-    @Provides
+    @Provides @Singleton
     OkHttpOAuthConsumer provideOkHttpOAuthConsumer(String authToken, String authTokenSecret) {
         OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(
                 BuildConfig.TWITTER_CONSUMER_KEY,
@@ -40,21 +33,24 @@ public class NetModule {
         return consumer;
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     OkHttpClient provideOkHttpClient(OkHttpOAuthConsumer consumer) {
         return new OkHttpClient.Builder()
                 .addInterceptor(new SigningInterceptor(consumer))
                 .build();
     }
 
-    @Provides
-    @Singleton
+    @Provides @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .build();
+    }
+
+    @Provides @Singleton
+    TwitterService provideTwitterService(Retrofit retrofit) {
+        return retrofit.create(TwitterService.class);
     }
 }

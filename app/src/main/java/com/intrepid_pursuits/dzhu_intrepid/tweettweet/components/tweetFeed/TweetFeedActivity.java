@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.login.LoginActivity;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.ServiceGenerator;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterAPI;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.Tweet;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterService;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweet.Tweet;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.RxScheduler;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import rx.Subscriber;
 
 public class TweetFeedActivity extends AppCompatActivity implements TweetFeedView {
 
-    private TwitterAPI twitterAPI;
+    private TwitterService twitterService;
     private TweetFeedAdapter tweetFeedAdapter;
     private RecyclerView tweetFeedView;
 
@@ -48,14 +48,14 @@ public class TweetFeedActivity extends AppCompatActivity implements TweetFeedVie
             authTokenSecret = sharedPreferences.getString(LoginActivity.AUTH_TOKEN_SECRET, "");
         }
 
-        twitterAPI = ServiceGenerator.createService(TwitterAPI.class, authToken, authTokenSecret);
+        twitterService = ServiceGenerator.createService(TwitterService.class, authToken, authTokenSecret);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        Observable<List<Tweet>> tweetFeedObservable = twitterAPI.getTimelineTweets().compose(RxScheduler.applySchedulers());
+        Observable<List<Tweet>> tweetFeedObservable = twitterService.getTimelineTweets().compose(RxScheduler.applySchedulers());
         tweetFeedObservable.subscribe(new Subscriber<List<Tweet>>() {
             @Override
             public void onCompleted() {}

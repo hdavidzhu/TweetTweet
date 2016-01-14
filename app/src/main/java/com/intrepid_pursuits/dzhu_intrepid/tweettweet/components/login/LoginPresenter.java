@@ -1,6 +1,7 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.login;
 
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.LoginInteractor;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.loginAccess.AccessToken;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.loginAccess.LoginAccess;
 
 import rx.Subscriber;
 import timber.log.Timber;
@@ -8,19 +9,19 @@ import timber.log.Timber;
 // Adapted from https://github.com/jpotts18/android-mvp/blob/master/app/src/main/java/io/jpotts18/android_mvp/domain/login/LoginPresenter.java
 public class LoginPresenter {
     private LoginView loginView;
-    private LoginInteractor loginInteractor;
+    private LoginAccess loginAccess;
 
     public LoginPresenter(LoginView loginView) {
         this.loginView = loginView;
-        this.loginInteractor = new LoginInteractor();
+        this.loginAccess = new LoginAccess();
     }
 
     public void attemptLogin() {
-        loginInteractor.retrieveAuthUrl(this.onAuthUrlRetrieved());
+        loginAccess.retrieveAuthUrl(this.onAuthUrlRetrieved());
     }
 
     public void submitPin(String pin) {
-        loginInteractor.submitPin(pin, this.onAccessTokenRetrieved());
+        loginAccess.submitPin(pin, this.onAccessTokenRetrieved());
     }
 
     // TODO: A new instance of this subscriber is created every single time. Should this be an observer
@@ -44,8 +45,8 @@ public class LoginPresenter {
         };
     }
 
-    private Subscriber<String[]> onAccessTokenRetrieved() {
-        return new Subscriber<String[]>() {
+    private Subscriber<AccessToken> onAccessTokenRetrieved() {
+        return new Subscriber<AccessToken>() {
             @Override
             public void onCompleted() {}
 
@@ -55,8 +56,8 @@ public class LoginPresenter {
             }
 
             @Override
-            public void onNext(String[] token) {
-                loginView.switchToTweetFeed(token[0], token[1]);
+            public void onNext(AccessToken token) {
+                loginView.switchToTweetFeed(token.getToken(), token.getSecret());
             }
         };
     }

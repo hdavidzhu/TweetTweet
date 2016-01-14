@@ -1,6 +1,4 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors;
-
-import android.os.Looper;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.loginAccess;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.RxScheduler;
@@ -15,12 +13,14 @@ import rx.Observable;
 import rx.Subscriber;
 import timber.log.Timber;
 
-public class LoginInteractor {
+public class LoginAccess {
 
     private OAuthService service;
     private Token requestToken;
+    private AccessToken accessToken;
 
-    public LoginInteractor() {
+    public LoginAccess() {
+        // TODO: Use Dagger2 here.
         this.service = new ServiceBuilder()
                 .provider(TwitterApi.class)
                 .apiKey(BuildConfig.TWITTER_CONSUMER_KEY)
@@ -29,17 +29,16 @@ public class LoginInteractor {
     }
 
     public void retrieveAuthUrl(Subscriber<String> authUrlSubscriber) {
-        Timber.d("Button clicked.");
         getAuthUrlObservable().subscribe(authUrlSubscriber);
     }
 
-    public void submitPin(String pin, Subscriber<String[]> onAccessTokenReceivedSubscriber) {
+    public void submitPin(String pin, Subscriber<AccessToken> onAccessTokenReceivedSubscriber) {
         Timber.d(pin);
         getPinObservable(pin)
-                .map(accessToken -> new String[]{accessToken.getToken(), accessToken.getSecret()})
-                .map(tokenArray -> {
-//                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences();
-                    return tokenArray;
+                .map(token -> new AccessToken(token.getToken(), token.getSecret()))
+                .map(accessToken -> {
+                    setAccessToken(accessToken);
+                    return accessToken;
                 })
                 .subscribe(onAccessTokenReceivedSubscriber);
     }
@@ -49,25 +48,19 @@ public class LoginInteractor {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Boolean isOnUIThread = Looper.myLooper() == Looper.getMainLooper();
-                    Timber.d("Am I on the UI thread? " + isOnUIThread.toString());
-
                     requestToken = service.getRequestToken();
                     String authUrl = service.getAuthorizationUrl(requestToken);
                     Timber.d(authUrl);
-
                     subscriber.onNext(authUrl);
-
                 } catch (Throwable e) {
                     subscriber.onError(e);
                 }
-
                 subscriber.onCompleted();
             }
         }).compose(RxScheduler.applySchedulers());
     }
 
-    public Observable<Token> getPinObservable(String pin) {
+    private Observable<Token> getPinObservable(String pin) {
         return Observable.create(new Observable.OnSubscribe<Token>() {
             @Override
             public void call(Subscriber<? super Token> subscriber) {
@@ -85,5 +78,14 @@ public class LoginInteractor {
 
             }
         }).compose(RxScheduler.applySchedulers());
+    }
+
+    // TODO: Used later when Dagger 2 in place.
+    public AccessToken getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(AccessToken accessToken) {
+        this.accessToken = accessToken;
     }
 }

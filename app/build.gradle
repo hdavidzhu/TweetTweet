@@ -33,6 +33,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -42,6 +46,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
 
     compile 'com.google.dagger:dagger:2.0'
+    compile 'org.glassfish:javax.annotation:10.0-b28'
     provided 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
