@@ -1,4 +1,4 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet.dagger.modules;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.di.modules;
 
 import android.app.Application;
 import android.content.Context;

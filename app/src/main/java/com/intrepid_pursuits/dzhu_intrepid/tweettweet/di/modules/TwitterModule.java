@@ -1,8 +1,10 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet.dagger.modules;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.di.modules;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterService;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.loginAccess.AccessToken;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -14,22 +16,20 @@ import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
 @Module
-public class NetworkModule {
+public class TwitterModule {
 
-    private String baseUrl;
+    private AccessToken accessToken;
 
-    public NetworkModule(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public TwitterModule(AccessToken accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Provides @Singleton
-    OkHttpOAuthConsumer provideOkHttpOAuthConsumer(String authToken, String authTokenSecret) {
+    OkHttpOAuthConsumer provideOkHttpOAuthConsumer() {
         OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(
                 BuildConfig.TWITTER_CONSUMER_KEY,
                 BuildConfig.TWITTER_CONSUMER_SECRET);
-
-        consumer.setTokenWithSecret(authToken, authTokenSecret);
-
+        consumer.setTokenWithSecret(accessToken.getToken(), accessToken.getSecret());
         return consumer;
     }
 
@@ -41,7 +41,7 @@ public class NetworkModule {
     }
 
     @Provides @Singleton
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    Retrofit provideRetrofit(OkHttpClient okHttpClient, @Named("baseUrl") String baseUrl) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
