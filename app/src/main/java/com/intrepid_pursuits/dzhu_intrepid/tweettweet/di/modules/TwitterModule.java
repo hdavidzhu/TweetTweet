@@ -1,7 +1,7 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.di.modules;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterService;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.TwitterService;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.loginAccess.AccessToken;
 
 import javax.inject.Named;

@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.login.LoginActivity;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.ServiceGenerator;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors.TwitterService;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.ServiceGenerator;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.TwitterService;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweet.Tweet;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.RxScheduler;
 

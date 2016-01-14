@@ -1,4 +1,4 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet.interactors;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 
