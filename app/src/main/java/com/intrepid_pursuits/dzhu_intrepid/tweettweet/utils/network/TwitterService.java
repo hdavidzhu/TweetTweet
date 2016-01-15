@@ -1,6 +1,6 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network;
 
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweet.Tweet;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.Tweet;
 
 import java.util.List;
 

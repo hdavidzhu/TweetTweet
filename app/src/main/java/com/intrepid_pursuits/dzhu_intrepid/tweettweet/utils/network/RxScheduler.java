@@ -1,4 +1,4 @@
-package com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils;
+package com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
