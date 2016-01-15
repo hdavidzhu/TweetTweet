@@ -3,7 +3,7 @@ package com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.tweetFeed;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweet.Tweet;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.Tweet;
 
 public class TweetFeedViewHolder extends RecyclerView.ViewHolder {
 

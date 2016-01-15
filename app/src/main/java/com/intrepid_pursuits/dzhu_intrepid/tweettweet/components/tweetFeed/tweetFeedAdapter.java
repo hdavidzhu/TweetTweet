@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweet.Tweet;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.Tweet;
 
 import java.util.List;
 
