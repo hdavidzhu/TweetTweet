@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
@@ -24,7 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     public static final String AUTH_TOKEN_PREFERENCES_LOCATION = "AUTH_TOKEN_PREFERENCES_LOCATION";
     public static final String AUTH_TOKEN = "AUTH_TOKEN";
     public static final String AUTH_TOKEN_SECRET = "AUTH_TOKEN_SECRET";
-
+    @Bind(R.id.pin_input)
+    EditText pinInput;
     private LoginAccess loginAccess;
 
     @Override
@@ -40,9 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginButtonClicked() {
         this.attemptLogin();
     }
-
-    @Bind(R.id.pin_input)
-    EditText pinInput;
 
     @OnClick(R.id.pin_submit)
     public void pinButtonClicked() {
@@ -89,7 +87,8 @@ public class LoginActivity extends AppCompatActivity {
     private Subscriber<String> onAuthUrlRetrieved() {
         return new Subscriber<String>() {
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+            }
 
             @Override
             public void onError(Throwable e) {
@@ -107,7 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     private Subscriber<AccessToken> onAccessTokenRetrieved() {
         return new Subscriber<AccessToken>() {
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+            }
 
             @Override
             public void onError(Throwable e) {

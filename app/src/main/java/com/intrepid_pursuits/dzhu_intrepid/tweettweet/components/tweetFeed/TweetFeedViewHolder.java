@@ -11,6 +11,7 @@ public class TweetFeedViewHolder extends RecyclerView.ViewHolder {
     public TweetFeedViewHolder(View itemView) {
         super(itemView);
     }
+
     public void bindTweet(Tweet tweet) {
         ((TextView) this.itemView.findViewById(R.id.date)).setText(tweet.getCreatedAt());
         ((TextView) this.itemView.findViewById(R.id.name)).setText(tweet.getUser().getName());

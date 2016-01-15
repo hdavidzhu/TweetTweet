@@ -11,12 +11,15 @@ public class Tweet {
     public long getId() {
         return id;
     }
+
     public String getText() {
         return text;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
+
     public User getUser() {
         return user;
     }

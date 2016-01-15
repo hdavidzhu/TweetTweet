@@ -8,9 +8,11 @@ public class User {
     public long getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public int getFollowersCount() {
         return followersCount;
     }

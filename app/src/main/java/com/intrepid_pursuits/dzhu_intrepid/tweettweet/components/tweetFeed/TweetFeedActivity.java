@@ -3,17 +3,17 @@ package com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.tweetFeed;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.R;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.components.login.LoginActivity;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.TweetFeed;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network.TwitterServiceGenerator;
-import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network.TwitterService;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.Tweet;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.models.tweetFeed.TweetFeed;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network.TwitterService;
+import com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network.TwitterServiceGenerator;
 
 import java.util.List;
 
