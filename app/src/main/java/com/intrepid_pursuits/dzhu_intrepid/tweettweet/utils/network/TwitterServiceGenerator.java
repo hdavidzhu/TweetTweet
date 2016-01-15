@@ -1,5 +1,8 @@
 package com.intrepid_pursuits.dzhu_intrepid.tweettweet.utils.network;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.intrepid_pursuits.dzhu_intrepid.tweettweet.BuildConfig;
 
 import okhttp3.OkHttpClient;
@@ -14,9 +17,12 @@ public class TwitterServiceGenerator {
     public static final String API_BASE_URL = "https://api.twitter.com";
     public static OkHttpOAuthConsumer consumer;
     public static OkHttpClient httpClient;
+    private static Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create();
     public static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     public static TwitterService createService(final String authToken, final String authTokenSecret) {
